@@ -234,6 +234,20 @@ describe('sharing and portfolio', () => {
     assert.equal(after.body.email, undefined);
   });
 
+  test('portfolio omits completed steps that are not evidence', async () => {
+    const call = await signedIn('matt@roadmap.local', 'change-me-matt');
+    // it-support-2 is "get hands on a computer you can break": genuine progress,
+    // but it carries no resumeBullet because it proves nothing to an employer.
+    await call('/api/progress/it-support-2', { method: 'PUT', body: { status: 'done' } });
+    await call('/api/auth/me', { method: 'PATCH', body: { portfolioPublic: true } });
+
+    const anonymous = client();
+    const { body } = await anonymous('/api/portfolio/matt');
+    const listed = [...body.projects, ...body.skills, ...body.experience];
+    assert.ok(!listed.some((item) => item.stepId === 'it-support-2'));
+    assert.ok(listed.every((item) => item.resumeBullet));
+  });
+
   test('saves and deletes comparisons', async () => {
     const call = await signedIn();
     const created = await call('/api/comparisons', {

@@ -121,15 +121,22 @@ export function socialRoutes(db) {
         portfolioItem: !!found.step.portfolioItem,
       }));
 
+    // This page goes on job applications, so it lists only steps that produce
+    // something a stranger would find credible. A step with no resumeBullet —
+    // "get hands on a computer you can break" — is real progress but not
+    // evidence, and publishing it weakens everything around it. Certifications
+    // are always evidence and are never filtered.
+    const evidence = (type) => completed.filter((c) => c.type === type && c.resumeBullet);
+
     res.json({
       displayName: user.display_name,
       headline: user.headline,
       primaryPath: user.primary_path,
       badges: listBadges(db, user.id).filter((b) => b.earned),
       certifications: completed.filter((c) => c.type === 'certification'),
-      projects: completed.filter((c) => c.type === 'project'),
-      skills: completed.filter((c) => c.type === 'skill'),
-      experience: completed.filter((c) => c.type === 'experience'),
+      projects: evidence('project'),
+      skills: evidence('skill'),
+      experience: evidence('experience'),
       paths: summary.perPath.filter((p) => p.touched),
       totals: { completed: summary.totalCompleted, hours: summary.totalHours },
     });
