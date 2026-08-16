@@ -15,6 +15,10 @@ import { signupPolicy } from './signup-policy.js';
 
 export function createApp(db) {
   const app = express();
+  // Managed hosts (Render, Fly, Railway) terminate TLS at their edge and
+  // forward plain HTTP with x-forwarded-proto. Trusting that single hop is what
+  // makes req.secure — and therefore the session cookie's Secure flag — true.
+  app.set('trust proxy', 1);
   app.use(express.json({ limit: '256kb' }));
   app.use(cookieParser());
   app.use(attachUser(db));

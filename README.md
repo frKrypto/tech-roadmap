@@ -148,21 +148,48 @@ step was completed.
 
 ## Deploying
 
-The simplest deployment is a single Node host (Render, Railway, Fly.io):
+`render.yaml` (Render blueprint) and `Dockerfile` (anything else) are both in the repo.
 
-```
-Build:  npm install && npm run build
-Start:  npm start
-Env:    NODE_ENV=production
-        ERIC_PASSWORD=…  MATT_PASSWORD=…
-        DATABASE_FILE=/data/roadmap.sqlite   # a persistent volume
-        PORT is provided by the host
-```
+### The one thing that will bite you
 
-Point `DATABASE_FILE` at a mounted volume — the default path is inside the app directory and will
-be wiped on redeploy. For a split deployment (static frontend on Vercel/Netlify plus the API
-elsewhere), the API needs CORS with credentials and the cookie needs `SameSite=None; Secure`;
-single-origin avoids both.
+**SQLite is a file, and most hosts replace the filesystem on every deploy.** Without a mounted
+disk, every deploy silently wipes all progress — which on this app means a year of someone's study
+history. `DATABASE_FILE` must point inside a persistent mount.
+
+On Render that means a **paid instance** (`starter`), because free-tier services get no disk and
+also sleep after inactivity. If you want a genuinely free host, use Fly.io — its free allowance
+includes a small persistent volume — or accept that a free Render instance is a demo, not a
+tracker.
+
+### Render
+
+1. New → Blueprint → connect this repo. It reads `render.yaml`.
+2. Set the secrets it marks `sync: false`: `ERIC_PASSWORD`, `MATT_PASSWORD`, and `INVITE_CODE`.
+3. Deploy. `/api/health` is the health check.
+
+### Environment variables
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_FILE` | Absolute path inside the persistent mount, e.g. `/var/data/roadmap.sqlite`. The default sits inside the app directory and does not survive redeploys. |
+| `ERIC_PASSWORD`, `MATT_PASSWORD` | Passwords for the two seeded accounts. If unset, the server seeds defaults and logs a warning at boot. |
+| `SIGNUP_MODE` | `invite` (default), `open`, or `closed`. |
+| `INVITE_CODE` | Required for `invite` mode. Without it, signup resolves to `closed` rather than open. |
+| `NODE_ENV` | Set to `production`. |
+| `PORT` | Supplied by the host; defaults to 4000. |
+
+Passwords are only read when an account is first created. Changing `ERIC_PASSWORD` later does not
+rotate an existing password — delete the database or add a password-change endpoint.
+
+### Notes
+
+The session cookie is marked `Secure` based on the *actual* request protocol, read through
+`x-forwarded-proto` (the app sets `trust proxy`). So it is Secure behind a TLS-terminating host and
+plain over local HTTP, instead of being unstorable when a production instance is served over HTTP.
+
+For a split deployment (static frontend on Vercel/Netlify plus the API elsewhere) the API needs
+CORS with credentials and the cookie needs `SameSite=None`; serving both from one origin — what
+`npm start` does — avoids all of it.
 
 ---
 

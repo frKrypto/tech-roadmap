@@ -49,11 +49,18 @@ export function userForToken(db, token) {
 
 export const COOKIE_NAME = 'roadmap_session';
 
-export function cookieOptions() {
+export function cookieOptions(req) {
   return {
     httpOnly: true,
     sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    // Derived from the actual request rather than from NODE_ENV. Hosts like
+    // Render and Fly terminate TLS in front of the app, so `req.secure` reads
+    // the forwarded protocol (see `trust proxy` in index.js) and the cookie is
+    // marked Secure exactly when the connection really is HTTPS. Keying this
+    // off NODE_ENV instead means a production instance served over plain HTTP
+    // sets a Secure cookie the browser silently discards — login returns 200
+    // and then simply doesn't stick, which is a miserable thing to debug.
+    secure: req?.secure === true,
     maxAge: SESSION_DAYS * 86400_000,
     path: '/',
   };

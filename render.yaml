@@ -1,0 +1,40 @@
+# Render blueprint. Point Render at this repo and it reads this file.
+#
+# The disk is the part that matters: SQLite lives in a file, and Render replaces
+# the container's filesystem on every deploy. Without a mounted disk, every
+# deploy would silently wipe all progress. DATABASE_FILE points into the mount.
+#
+# Note the plan: persistent disks require a paid instance type. On Render's free
+# tier there is no disk, the service also sleeps after inactivity, and the
+# database would reset — fine for a look around, not for tracking a year of
+# study. See README "Deploying" for the free-tier alternatives.
+services:
+  - type: web
+    name: tech-roadmap
+    runtime: node
+    plan: starter
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    disk:
+      name: roadmap-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_FILE
+        value: /var/data/roadmap.sqlite
+      # Set these in the Render dashboard, not here — they are secrets.
+      - key: ERIC_PASSWORD
+        sync: false
+      - key: MATT_PASSWORD
+        sync: false
+      # Signup posture. Defaults to invite-only; INVITE_CODE must be set for
+      # registration to open at all.
+      - key: SIGNUP_MODE
+        value: invite
+      - key: INVITE_CODE
+        sync: false

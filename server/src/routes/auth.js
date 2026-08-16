@@ -26,7 +26,7 @@ export function authRoutes(db) {
     }
 
     const { token } = createSession(db, user.id);
-    res.cookie(COOKIE_NAME, token, cookieOptions());
+    res.cookie(COOKIE_NAME, token, cookieOptions(req));
     res.json({ user: publicUser(user) });
   });
 
@@ -65,7 +65,7 @@ export function authRoutes(db) {
 
     const user = db.prepare('SELECT * FROM users WHERE id = ?').get(info.lastInsertRowid);
     const { token } = createSession(db, user.id);
-    res.cookie(COOKIE_NAME, token, cookieOptions());
+    res.cookie(COOKIE_NAME, token, cookieOptions(req));
     res.status(201).json({ user: publicUser(user) });
   });
 

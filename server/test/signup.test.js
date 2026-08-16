@@ -149,3 +149,40 @@ describe('signup endpoint', () => {
     assert.equal(body.summary.totalCompleted, 0);
   });
 });
+
+describe('session cookie security flag', () => {
+  let baseUrl;
+  let server;
+
+  before(async () => {
+    const db = openDb(':memory:');
+    ensureSeedUsers(db);
+    server = createApp(db).listen(0);
+    await new Promise((resolve) => server.once('listening', resolve));
+    baseUrl = `http://127.0.0.1:${server.address().port}`;
+  });
+
+  after(() => server.close());
+
+  const login = (headers = {}) =>
+    fetch(`${baseUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', ...headers },
+      body: JSON.stringify({ email: 'eric@roadmap.local', password: 'change-me-eric' }),
+    });
+
+  test('omits Secure over plain HTTP so the cookie is actually stored', async () => {
+    const res = await login();
+    const cookie = res.headers.get('set-cookie');
+    assert.match(cookie, /HttpOnly/);
+    assert.equal(/Secure/.test(cookie), false);
+  });
+
+  test('sets Secure when the proxy reports HTTPS', async () => {
+    const res = await login({ 'x-forwarded-proto': 'https' });
+    const cookie = res.headers.get('set-cookie');
+    assert.match(cookie, /Secure/);
+    assert.match(cookie, /HttpOnly/);
+    assert.match(cookie, /SameSite=Lax/);
+  });
+});
