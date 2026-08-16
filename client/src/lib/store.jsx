@@ -161,6 +161,18 @@ export function AppProvider({ children }) {
     [loadContent, loadProgress, theme],
   );
 
+  const signup = useCallback(
+    async (details) => {
+      const { user: created } = await api.post('/auth/signup', details);
+      setUser(created);
+      cache.setUser(created);
+      await loadContent().catch(() => {});
+      await loadProgress();
+      return created;
+    },
+    [loadContent, loadProgress],
+  );
+
   const logout = useCallback(async () => {
     await api.post('/auth/logout').catch(() => {});
     setUser(null);
@@ -259,6 +271,7 @@ export function AppProvider({ children }) {
     theme,
     setTheme,
     login,
+    signup,
     logout,
     updateUser,
     updateStep,

@@ -11,6 +11,7 @@ import {
 } from '../auth.js';
 import { nowIso } from '../db.js';
 import { slugify } from '../util.js';
+import { inviteCodeMatches, signupPolicy } from '../signup-policy.js';
 
 export function authRoutes(db) {
   const router = Router();
@@ -29,10 +30,22 @@ export function authRoutes(db) {
     res.json({ user: publicUser(user) });
   });
 
+  // Lets the sign-in screen know whether to offer registration at all, without
+  // revealing the invite code itself.
+  router.get('/config', (_req, res) => {
+    const policy = signupPolicy();
+    res.json({ signupEnabled: policy.enabled, requiresInvite: !!policy.requiresInvite });
+  });
+
   router.post('/signup', (req, res) => {
-    if (process.env.ALLOW_SIGNUP === 'false') {
+    const policy = signupPolicy();
+    if (!policy.enabled) {
       return res.status(403).json({ error: 'Signup is closed on this instance' });
     }
+    if (!inviteCodeMatches(policy, req.body?.inviteCode)) {
+      return res.status(403).json({ error: 'That invite code is not valid' });
+    }
+
     const email = String(req.body?.email || '').trim().toLowerCase();
     const password = String(req.body?.password || '');
     const displayName = String(req.body?.displayName || '').trim() || email.split('@')[0];

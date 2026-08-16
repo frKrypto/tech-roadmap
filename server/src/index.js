@@ -11,6 +11,7 @@ import { authRoutes } from './routes/auth.js';
 import { progressRoutes } from './routes/progress.js';
 import { socialRoutes } from './routes/social.js';
 import { ensureSeedUsers } from './seed.js';
+import { signupPolicy } from './signup-policy.js';
 
 export function createApp(db) {
   const app = express();
@@ -54,7 +55,11 @@ if (isMain) {
   const db = openDb();
   ensureSeedUsers(db);
   const port = Number(process.env.PORT) || 4000;
+  const policy = signupPolicy();
   createApp(db).listen(port, () => {
     console.log(`roadmap api listening on http://localhost:${port} (content ${content.version})`);
+    // Say the signup posture out loud at boot — a misconfigured instance should
+    // be obvious in the logs, not discovered later.
+    console.log(`signup: ${policy.mode}${policy.reason ? ` (${policy.reason})` : ''}`);
   });
 }
