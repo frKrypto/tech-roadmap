@@ -78,7 +78,7 @@
       "resumeBullet": "Completed hands-on security fundamentals labs covering network analysis, log review, and threat identification (TryHackMe).",
       "resources": [
         { "name": "TryHackMe — free beginner rooms and Pre-Security path", "url": "https://tryhackme.com/", "cost": 0, "type": "practice", "notes": "Substantial free content; subscription ~$14/month unlocks the rest. Runs entirely in a browser, which makes it unusually accessible.", "lastVerified": "2026-08" },
-        { "name": "Professor Messer — free Security+ video course", "url": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video-course/", "cost": 0, "type": "course", "notes": "Free. Doubles as your Security+ prep later. Confirm the current exam code before starting.", "lastVerified": "2026-08" },
+        { "name": "Professor Messer — free Security+ video course", "url": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video-course/", "cost": 0, "type": "course", "notes": "Free. Doubles as your Security+ prep later. This is the SY0-701 course; if SY0-801 has launched by the time you start, use the newer course.", "lastVerified": "2026-08" },
         { "name": "MITRE ATT&CK framework", "url": "https://attack.mitre.org/", "cost": 0, "type": "course", "notes": "Free. Learn to navigate it — interviewers ask about it and analysts reference it daily.", "lastVerified": "2026-08" },
         { "name": "Cisco Networking Academy — free Introduction to Cybersecurity", "url": "https://www.netacad.com/courses/introduction-to-cybersecurity", "cost": 0, "type": "course", "notes": "Free with a certificate of completion.", "lastVerified": "2026-08" }
       ]
@@ -92,7 +92,7 @@
       "estimatedWeeks": 9,
       "estimatedHours": 70,
       "costEstimate": 439,
-      "costNote": "PAID: roughly $439 as of CompTIA's June 2026 pricing. Check for partner vouchers and student discounts. If you are a US veteran, VA benefits and programs like VET TEC frequently cover this entirely.",
+      "costNote": "PAID: roughly $439 as of CompTIA's June 2026 pricing. Check for partner vouchers and student discounts. If you are a US veteran, VA benefits and programs like VET TEC frequently cover this entirely. Timing note: SY0-701 is the current version, but CompTIA is expected to release SY0-801 around October 2026. The outgoing version normally stays bookable for about six months after a new one launches — so if you are close to ready, sitting 701 is fine; if you are months away, study the version you will actually sit and confirm the live exam code before buying a voucher.",
       "noPcRequired": true,
       "libraryFriendly": true,
       "optional": false,

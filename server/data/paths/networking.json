@@ -163,7 +163,7 @@
       "outcome": "Security+ or CCNA certified.",
       "resumeBullet": "CompTIA Security+ / Cisco CCNA certified — network security fundamentals, routing and switching, and infrastructure hardening.",
       "resources": [
-        { "name": "CompTIA Security+ official page", "url": "https://www.comptia.org/en-us/certifications/security/", "cost": 439, "type": "cert", "notes": "PAID, roughly $439 as of the June 2026 price increase. Required baseline for many US federal contractor roles.", "lastVerified": "2026-08" },
+        { "name": "CompTIA Security+ official page", "url": "https://www.comptia.org/en-us/certifications/security/", "cost": 439, "type": "cert", "notes": "PAID, roughly $439 as of the June 2026 price increase. Required baseline for many US federal contractor roles. SY0-801 is expected around October 2026 — confirm the live exam code before buying a voucher.", "lastVerified": "2026-08" },
         { "name": "Cisco CCNA official page", "url": "https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html", "cost": 300, "type": "cert", "notes": "PAID, $300 list (commonly $330 at Pearson VUE). Cisco periodically offers discounted or free exam vouchers through NetAcad promotions — check before paying.", "lastVerified": "2026-08" },
         { "name": "Jeremy's IT Lab — free complete CCNA course", "url": "https://www.youtube.com/@JeremysITLab", "cost": 0, "type": "course", "notes": "Free. Full CCNA curriculum with labs; genuinely sufficient to pass without paid training.", "lastVerified": "2026-08" }
       ]

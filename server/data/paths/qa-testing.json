@@ -154,15 +154,15 @@
       "estimatedTime": "3–5 weeks (~30 hours)",
       "estimatedWeeks": 4,
       "estimatedHours": 30,
-      "costEstimate": 250,
-      "costNote": "PAID: roughly $200–300 in the US depending on the exam provider. Optional — check whether local job postings actually ask for it first.",
+      "costEstimate": 229,
+      "costNote": "PAID: $229 in the US through ASTQB (prices differ by national board). Optional — check whether local job postings actually ask for it first.",
       "noPcRequired": true,
       "libraryFriendly": true,
       "optional": true,
       "outcome": "ISTQB Certified Tester, Foundation Level.",
       "resumeBullet": "ISTQB Certified Tester – Foundation Level.",
       "resources": [
-        { "name": "ISTQB Foundation Level (official)", "url": "https://www.istqb.org/certifications/certified-tester-foundation-level", "cost": 250, "type": "cert", "notes": "PAID. Price varies by national board; the syllabus and sample exams are free downloads.", "lastVerified": "2026-08" }
+        { "name": "ISTQB Foundation Level (official)", "url": "https://www.istqb.org/certifications/certified-tester-foundation-level", "cost": 229, "type": "cert", "notes": "PAID, $229 in the US via ASTQB; price varies by national board. The syllabus and sample exams are free downloads.", "lastVerified": "2026-08" }
       ]
     },
     {

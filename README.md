@@ -169,9 +169,25 @@ single-origin avoids both.
 ## Keeping content honest
 
 Prices and free courses change. Every resource carries a `lastVerified` month that is displayed in
-the UI, and cost notes name the specific thing to re-check. The figures currently in the seed data
-were verified in **August 2026**, including CompTIA's June 2026 price increase (A+ ~$548 across two
-exams, Network+ ~$399, Security+ ~$439), CCNA at $300, AWS Cloud Practitioner at $100, Azure
-AZ-900 at $99, and Coursera professional certificates at $49/month.
+the UI, and cost notes name the specific thing to re-check.
+
+**Verified against live sources in August 2026** — the claims that cost money or send someone at a
+dead exam code:
+
+| Claim | Status |
+|-------|--------|
+| CompTIA June 2026 price rise: A+ ~$548 (two exams), Network+ ~$399, Security+ ~$439 | confirmed |
+| A+ exam codes 220-1201 / 220-1202 | confirmed current (220-1101/1102 retired Sept 2025; current until ~Sept 2028) |
+| Network+ N10-009, Security+ SY0-701 | confirmed current |
+| CCNA $300 · AWS Cloud Practitioner $100 · AWS associate $150 | confirmed |
+| Azure AZ-900 $99 · DP-900 $99 · AZ-104 / DP-300 $165 | confirmed |
+| Coursera professional certificates $49/month | confirmed |
+| Scrum.org PSM I $200 · PMI CAPM $225 member / $300 non-member · CompTIA Project+ ~$370 | confirmed |
+| ISTQB Foundation | **corrected** — was estimated $200–300, is $229 in the US via ASTQB |
+| Security+ SY0-801 | **added warning** — expected ~October 2026; the outgoing version normally stays bookable ~6 months, so anyone months away from sitting it should study the version they will actually take |
+
+This pass covered exam pricing and version codes across all 11 paths. It did **not** re-open all
+255 resource links one by one — free courses and community links rot more slowly and more visibly
+than exam prices do. Salary ranges are judgement calls anchored to BLS data, not quoted figures.
 
 Re-verify before recommending anyone spend money.
